@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 
 app = Flask(__name__)
 app.secret_key = 'cyber_shield_super_secret_key_2026'
-
-# ডেমো ইউজার স্টোর (টেস্টিংয়ের জন্য)
 users_db = {}
 
 @app.route('/')
