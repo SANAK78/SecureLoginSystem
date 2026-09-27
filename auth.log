@@ -1,0 +1,43 @@
+2026-09-27 19:33:45,916 INFO WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+2026-09-27 19:33:45,916 INFO Press CTRL+C to quit
+2026-09-27 19:33:45,917 INFO  * Restarting with stat
+2026-09-27 19:33:46,119 WARNING  * Debugger is active!
+2026-09-27 19:33:46,121 INFO  * Debugger PIN: 171-604-764
+2026-09-27 19:34:35,839 INFO 127.0.0.1 - - [27/Sep/2026 19:34:35] "GET / HTTP/1.1" 302 -
+2026-09-27 19:34:35,863 INFO 127.0.0.1 - - [27/Sep/2026 19:34:35] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:34:36,010 INFO 127.0.0.1 - - [27/Sep/2026 19:34:36] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-09-27 19:34:36,013 INFO 127.0.0.1 - - [27/Sep/2026 19:34:36] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-09-27 19:34:36,191 INFO 127.0.0.1 - - [27/Sep/2026 19:34:36] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=oZOKI5n3RFKQFwW3zgaf HTTP/1.1" 200 -
+2026-09-27 19:34:38,422 INFO 127.0.0.1 - - [27/Sep/2026 19:34:38] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-09-27 19:36:59,575 INFO  * Detected change in 'D:\\SecureLoginSystem\\app.py', reloading
+2026-09-27 19:36:59,612 INFO  * Restarting with stat
+2026-09-27 19:36:59,921 WARNING  * Debugger is active!
+2026-09-27 19:36:59,923 INFO  * Debugger PIN: 171-604-764
+2026-09-27 19:37:03,127 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET / HTTP/1.1" 302 -
+2026-09-27 19:37:03,147 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:37:03,242 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-09-27 19:37:03,242 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-09-27 19:37:03,280 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=zKoXOkDRqUTkaMi2s6eb HTTP/1.1" 200 -
+2026-09-27 19:37:03,289 INFO 127.0.0.1 - - [27/Sep/2026 19:37:03] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-09-27 19:37:54,755 INFO 127.0.0.1 - - [27/Sep/2026 19:37:54] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:37:54,785 INFO 127.0.0.1 - - [27/Sep/2026 19:37:54] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+2026-09-27 19:37:54,791 INFO 127.0.0.1 - - [27/Sep/2026 19:37:54] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+2026-09-27 19:37:54,940 INFO 127.0.0.1 - - [27/Sep/2026 19:37:54] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=zKoXOkDRqUTkaMi2s6eb HTTP/1.1" 200 -
+2026-09-27 19:37:55,571 INFO 127.0.0.1 - - [27/Sep/2026 19:37:55] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:37:55,623 INFO 127.0.0.1 - - [27/Sep/2026 19:37:55] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+2026-09-27 19:37:55,624 INFO 127.0.0.1 - - [27/Sep/2026 19:37:55] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+2026-09-27 19:37:55,702 INFO 127.0.0.1 - - [27/Sep/2026 19:37:55] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=zKoXOkDRqUTkaMi2s6eb HTTP/1.1" 304 -
+2026-09-27 19:37:55,875 INFO 127.0.0.1 - - [27/Sep/2026 19:37:55] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+2026-09-27 19:46:53,883 INFO 127.0.0.1 - - [27/Sep/2026 19:46:53] "GET / HTTP/1.1" 302 -
+2026-09-27 19:46:53,932 INFO 127.0.0.1 - - [27/Sep/2026 19:46:53] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:46:54,060 INFO 127.0.0.1 - - [27/Sep/2026 19:46:54] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+2026-09-27 19:46:54,064 INFO 127.0.0.1 - - [27/Sep/2026 19:46:54] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+2026-09-27 19:46:54,252 INFO 127.0.0.1 - - [27/Sep/2026 19:46:54] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=zKoXOkDRqUTkaMi2s6eb HTTP/1.1" 304 -
+2026-09-27 19:58:29,642 INFO 127.0.0.1 - - [27/Sep/2026 19:58:29] "GET /login HTTP/1.1" 500 -
+2026-09-27 19:58:29,677 INFO 127.0.0.1 - - [27/Sep/2026 19:58:29] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+2026-09-27 19:58:29,684 INFO 127.0.0.1 - - [27/Sep/2026 19:58:29] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+2026-09-27 19:58:29,849 INFO 127.0.0.1 - - [27/Sep/2026 19:58:29] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=zKoXOkDRqUTkaMi2s6eb HTTP/1.1" 304 -
+2026-09-27 19:58:30,539 INFO 127.0.0.1 - - [27/Sep/2026 19:58:30] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+2026-09-27 20:01:20,991 INFO  * Detected change in 'D:\\SecureLoginSystem\\app.py', reloading
+2026-09-27 20:01:21,031 INFO  * Restarting with stat

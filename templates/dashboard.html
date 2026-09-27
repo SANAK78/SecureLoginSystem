@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Cloud Console</title>
+    <!-- Modern Font: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #060913;
+            --panel-bg: rgba(15, 23, 42, 0.65);
+            --card-surface: rgba(30, 41, 59, 0.45);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(56, 189, 248, 0.3);
+            --accent-cyan: #38bdf8;
+            --accent-blue: #3b82f6;
+            --accent-indigo: #6366f1;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-heading: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glow-cyan: rgba(56, 189, 248, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-heading);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 16px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ====== ANIMATED BACKGROUND ORBS ====== */
+        .ambient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.55;
+            animation: orbFloat 14s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, #38bdf8, transparent 65%);
+            top: -10%;
+            left: 10%;
+        }
+
+        .orb-2 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, #6366f1, transparent 70%);
+            bottom: -15%;
+            right: 5%;
+            animation-duration: 18s;
+            animation-delay: -4s;
+        }
+
+        .orb-3 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, #0ea5e9, transparent 65%);
+            top: 40%;
+            left: 45%;
+            animation-duration: 22s;
+            animation-delay: -7s;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.1); }
+            100% { transform: translate(-50px, -60px) scale(0.95); }
+        }
+
+        /* ====== MAIN DASHBOARD WRAPPER ====== */
+        .dashboard-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 980px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
+            box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.7),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 36px 40px;
+            animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(24px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ====== TOP NAVBAR ====== */
+        .dash-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 4px 18px var(--glow-cyan);
+            overflow: hidden;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .user-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-verified {
+            color: var(--accent-cyan);
+            display: inline-flex;
+        }
+
+        .user-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 7px 14px;
+            border-radius: 100px;
+            color: var(--accent-green);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulseGlow 1.8s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-exit:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* ====== TABS NAVIGATION ====== */
+        .tab-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 12px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-heading);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid var(--border-highlight);
+        }
+
+        /* ====== TAB CONTENTS ====== */
+        .tab-panel {
+            display: none;
+            animation: fadeInTab 0.35s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ====== WELCOME HERO SECTION ====== */
+        .hero-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(99, 102, 241, 0.05));
+            border: 1px solid var(--border-subtle);
+            padding: 24px 28px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .hero-text h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .gradient-span {
+            background: linear-gradient(135deg, var(--accent-cyan), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            max-width: 520px;
+            line-height: 1.5;
+        }
+
+        .hero-action .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px var(--glow-cyan);
+            transition: all 0.25s ease;
+        }
+
+        .hero-action .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.45);
+        }
+
+        /* ====== METRIC STATS GRID ====== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-2px);
+            background: rgba(30, 41, 59, 0.65);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+        }
+
+        .stat-footer {
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trend-up {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        /* ====== DUAL PANEL LAYOUT ====== */
+        .dual-panel {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .glass-box {
+            background: var(--card-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .box-title {
+            font-size: 1.02rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+
+        .act-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-cyan);
+        }
+
+        .act-details p {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .act-details span {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .prog-item {
+            margin-bottom: 16px;
+        }
+
+        .prog-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+
+        .prog-bar {
+            width: 100%;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 100px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 24px 20px;
+            }
+            .dual-panel {
+                grid-template-columns: 1fr;
+            }
+            .hero-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="dashboard-container">
+
+        <!-- Top Navigation -->
+        <nav class="dash-nav">
+            <div class="user-chip">
+                <div class="avatar">
+                    {{ (username[0] | upper) if username else 'M' }}
+                </div>
+                <div class="user-info">
+                    <h3>
+                        <span>{{ username if username else 'Operator' }}</span>
+                        <span class="badge-verified">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        </span>
+                    </h3>
+                    <p>Operator Identity • Authenticated Node</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <div class="status-pill">
+                    <span class="live-dot"></span>
+                    <span>System Active</span>
+                </div>
+                <a href="/logout" class="btn-exit">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </a>
+            </div>
+        </nav>
+
+        <!-- Navigation Tabs -->
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('overview')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Overview
+            </button>
+            <button class="tab-btn" onclick="switchTab('analytics')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
+                Analytics & AI
+            </button>
+            <button class="tab-btn" onclick="switchTab('projects')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                Projects
+            </button>
+            <button class="tab-btn" onclick="switchTab('settings')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Security & Settings
+            </button>
+        </div>
+
+        <!-- ================= PANEL 1: OVERVIEW ================= -->
+        <div id="panel-overview" class="tab-panel active">
+            <!-- Hero Welcome -->
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <h1>Welcome back, <span class="gradient-span">{{ username if username else 'Operator' }}</span>!</h1>
+                    <p>Your cloud node is fully synchronized. Precision automation engines and robotics monitoring pipelines are operational.</p>
+                </div>
+                <div class="hero-action">
+                    <button class="btn-primary" onclick="alert('Launching Realtime Telemetry Monitor...')">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Launch Monitor
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Core Metric Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Active Nodes</span>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <div class="stat-value">24 / 24</div>
+                    <div class="stat-footer">
+                        <span class="trend-up">↑ 100%</span>
+                        <span style="color: var(--text-secondary);">Operational</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Robotics Precision</span>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="stat-value">0.1 µm</div>
+                    <div class="stat-footer">
+                        <span class="trend-up">↑ Micron-level</span>
+                        <span style="color: var(--text-secondary);">Tolerance</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Cloud Latency</span>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    </div>
+                    <div class="stat-value">12 ms</div>
+                    <div class="stat-footer">
+                        <span class="trend-up">⚡ Ultra Low</span>
+                        <span style="color: var(--text-secondary);">Realtime sync</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span>Security Rating</span>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="stat-value">A+ (99.8%)</div>
+                    <div class="stat-footer">
+                        <span class="trend-up">✓ Shielded</span>
+                        <span style="color: var(--text-secondary);">Zero leaks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dual Information Box -->
+            <div class="dual-panel">
+                <div class="glass-box">
+                    <div class="box-title">
+                        <span>Live Activity Feed</span>
+                        <span style="font-size: 0.75rem; color: var(--accent-cyan);">Realtime</span>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="act-icon">⚙️</div>
+                            <div class="act-details">
+                                <p>Automated Assembly Arm #04 Calibrated</p>
+                                <span>Micron alignment routine passed • 2 mins ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="act-icon">🛡️</div>
+                            <div class="act-details">
+                                <p>Secure Session Authenticated</p>
+                                <span>SSL / TLS Handshake verified • Just now</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="act-icon">📊</div>
+                            <div class="act-details">
+                                <p>Green Energy Telemetry Updated</p>
+                                <span>Solar & Wind power logs stored • 15 mins ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-box">
+                    <div class="box-title">
+                        <span>System Allocation</span>
+                    </div>
+                    <div class="prog-item">
+                        <div class="prog-labels">
+                            <span style="color: var(--text-secondary);">AI Inference Engine</span>
+                            <span>78%</span>
+                        </div>
+                        <div class="prog-bar">
+                            <div class="prog-fill" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="prog-item">
+                        <div class="prog-labels">
+                            <span style="color: var(--text-secondary);">Kinematics Buffer</span>
+                            <span>42%</span>
+                        </div>
+                        <div class="prog-bar">
+                            <div class="prog-fill" style="width: 42%; background: linear-gradient(90deg, #10b981, #38bdf8);"></div>
+                        </div>
+                    </div>
+                    <div class="prog-item">
+                        <div class="prog-labels">
+                            <span style="color: var(--text-secondary);">Cloud Storage (Adobe Sync)</span>
+                            <span>21%</span>
+                        </div>
+                        <div class="prog-bar">
+                            <div class="prog-fill" style="width: 21%; background: linear-gradient(90deg, #6366f1, #a855f7);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PANEL 2: ANALYTICS ================= -->
+        <div id="panel-analytics" class="tab-panel">
+            <div class="glass-box" style="padding: 30px; text-align: center;">
+                <h2 style="margin-bottom: 10px;">Predictive AI & Quality Control Analytics</h2>
+                <p style="color: var(--text-secondary); max-width: 580px; margin: 0 auto 24px;">
+                    Machine learning algorithms monitor tool vibrations and thermal expansion to maintain 0.1mm micro-accuracy.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 18px 28px; border-radius: 14px;">
+                        <h4 style="font-size: 1.8rem; color: var(--accent-cyan); font-weight: 800;">99.98%</h4>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Inspection Accuracy</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 18px 28px; border-radius: 14px;">
+                        <h4 style="font-size: 1.8rem; color: var(--accent-green); font-weight: 800;">-34%</h4>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Downtime Reduced</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PANEL 3: PROJECTS ================= -->
+        <div id="panel-projects" class="tab-panel">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4 style="margin-bottom: 8px; color: var(--accent-cyan);">Robotics in Precision Mfg</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px;">WBSCTVESD & Adobe Enterprise research project on Industry 4.0 assembly.</p>
+                    <span class="status-pill" style="display: inline-flex;">Completed & Deployed</span>
+                </div>
+                <div class="stat-card">
+                    <h4 style="margin-bottom: 8px; color: var(--accent-green);">Green Technology</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px;">Sustainable manufacturing, renewable surge, and 4R Goals implementation.</p>
+                    <span class="status-pill" style="display: inline-flex;">Published</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PANEL 4: SETTINGS ================= -->
+        <div id="panel-settings" class="tab-panel">
+            <div class="glass-box">
+                <h3 style="margin-bottom: 16px;">Security Protocols</h3>
+                <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
+                    Role-Based Access Control (RBAC) is active. End-to-end multi-tenant isolation enabled.
+                </p>
+                <button class="btn-primary" style="padding: 10px 20px; font-size: 0.85rem;" onclick="alert('Session key rotated successfully!')">
+                    Rotate Security Keys
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Clean Tab Script (No Jinja tags inside JS) -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.innerText.toLowerCase().includes(tabId));
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const targetPanel = document.getElementById('panel-' + tabId);
+            if (targetPanel) targetPanel.classList.add('active');
+        }
+    </script>
+</body>
+</html>
